@@ -21,34 +21,49 @@ app.get("/words", async (req, res) => {
 })
 
 app.get("/words/:keyword", async (req, res) => {
-    const {keyword} = req.params
-    const word = await socialDB.collection("words").findOne({keyword})
-    if(word){
-        return res.json(word)
+    try{
+        const {keyword} = req.params
+        const word = await socialDB.collection("words").findOne({keyword})
+        if(word){
+            return res.json(word)
+        }
+        return res.status(404).json({msg : "keyword not found"})
+    }catch (e){
+        console.log(e);
+        return res.json(e).status(500)
     }
-    return res.status(404).json({msg : "keyword not found"})
 })
 
 app.get("/words/filter/:key", async (req, res) => {
-    const {key} = req.params
-    const regexPattern = new RegExp(key, 'i');
-    const words = await socialDB.collection("words").find(
-        {
-            keyword : {$regex : regexPattern}
-        }
-    ).toArray()
-    return res.json(words)
+    try{
+        const {key} = req.params
+        const regexPattern = new RegExp(key, 'i');
+        const words = await socialDB.collection("words").find(
+            {
+                keyword : {$regex : regexPattern}
+            }
+        ).toArray()
+        return res.json(words)
+    }catch (e){
+        console.log(e);
+        return res.json(e).status(500)
+    }
 })
 
 app.post("/words", async (req, res) => {
-    const {keyword, shortExp} = req.body 
-    if(!keyword && !shortExp){
-        return res.status(403).json({msg : "keyword & shortExp required"})
+    try{
+        const {keyword, shortExp} = req.body 
+        if(!keyword && !shortExp){
+            return res.status(403).json({msg : "keyword & shortExp required"})
+        }
+        const data = req.body 
+        const _id = (await socialDB.collection("words").insertOne(data)).insertedId
+        const result = {_id, ...data}
+        return res.json(result)
+    }catch (e){
+        console.log(e);
+        return res.json(e).status(500)
     }
-    const data = req.body 
-    const _id = (await socialDB.collection("words").insertOne(data)).insertedId
-    const result = {_id, ...data}
-    return res.json(result)
 })
 
 app.listen(5000,() => {

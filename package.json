@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev" : "npx nodemon index.js"
+    "dev" : "node index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
