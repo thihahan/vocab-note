@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "npm run dev" : "npm install && npx nodemon index.js"
+    "npm run dev" : "npx nodemon index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
