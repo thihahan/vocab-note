@@ -11,8 +11,13 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get("/words", async (req, res) => {
-    const words = await socialDB.collection("words").find({}).toArray()
-    return res.json(words)
+    try{
+        const words = await socialDB.collection("words").find({}).toArray()
+        return res.json(words)
+    }catch (e){
+        console.log(e);
+        return res.json(e).status(500)
+    }
 })
 
 app.get("/words/:keyword", async (req, res) => {
