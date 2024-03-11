@@ -4,8 +4,8 @@ const app = express()
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const {MongoClient, ObjectId} = require("mongodb")
-const mongo_url = process.env.DATABASE_URL ?? "http://localhost"
-const mongo = new MongoClient()
+const mongo_url = process.env.DATABASE_URL ?? "mongodb://localhost"
+const mongo = new MongoClient(mongo_url)
 const socialDB = mongo.db("vocabs")
 app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.json())
