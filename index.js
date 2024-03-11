@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get("/mongo-url", async (req, res) => {
+    return res.json({mongo_url})
+})
+
 app.get("/words", async (req, res) => {
     try{
         const words = await socialDB.collection("words").find({}).toArray()
