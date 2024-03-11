@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get("/mongo-url", async (req, res) => {
+    console.log(process.env.DATABASE_URL);
     return res.json({mongo_url})
 })
 
