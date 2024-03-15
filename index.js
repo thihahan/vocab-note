@@ -19,7 +19,9 @@ app.get("/mongo-url", async (req, res) => {
 
 app.get("/words", async (req, res) => {
     try{
-        const words = await socialDB.collection("words").find({}).toArray()
+        const words = await socialDB.collection("words").find({})
+        .sort({_id : -1})
+        .toArray()
         return res.json(words)
     }catch (e){
         console.log(e);
