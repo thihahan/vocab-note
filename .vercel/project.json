@@ -1,1 +1,15 @@
-{"projectId":"prj_6viQCrVVIQzY1U99z37yA3jgZG3U","orgId":"team_xqGWJxXK7HTZl76ta9X9JmyO"}
+{
+  "projectId": "prj_6viQCrVVIQzY1U99z37yA3jgZG3U",
+  "orgId": "team_xqGWJxXK7HTZl76ta9X9JmyO",
+  "settings": {
+    "createdAt": 1710637555060,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "18.x"
+  }
+}
