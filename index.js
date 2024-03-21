@@ -21,6 +21,7 @@ app.get("/words", async (req, res) => {
     try{
         const words = await socialDB.collection("words").find({})
         .sort({_id : -1})
+        .project({detail : 0, note : 0, examples : 0})
         .toArray()
         return res.json(words)
     }catch (e){
@@ -29,10 +30,10 @@ app.get("/words", async (req, res) => {
     }
 })
 
-app.get("/words/:keyword", async (req, res) => {
+app.get("/words/:slug", async (req, res) => {
     try{
-        const {keyword} = req.params
-        const word = await socialDB.collection("words").findOne({keyword})
+        const {slug} = req.params
+        const word = await socialDB.collection("words").findOne({slug})
         if(word){
             return res.json(word)
         }
@@ -51,7 +52,9 @@ app.get("/words/filter/:key", async (req, res) => {
             {
                 keyword : {$regex : regexPattern}
             }
-        ).toArray()
+        )
+        .project({detail : 0, note : 0, examples : 0})
+        .toArray()
         return res.json(words)
     }catch (e){
         console.log(e);
@@ -72,6 +75,20 @@ app.post("/words", async (req, res) => {
     }catch (e){
         console.log(e);
         return res.json(e).status(500)
+    }
+})
+
+// delete word 
+app.delete("/words/:id", async (req, res) => {
+    try{
+        const { id } = req.params 
+        if(!ObjectId.isValid(id)){
+            return res.status(400).json({msg : "invalid id"})
+        }
+        await socialDB.collection("words").deleteOne({_id : new ObjectId(id)})
+        return res.status(204)
+    }catch (e){
+        res.status(500).json({msg : "something went wrong"})
     }
 })
 
