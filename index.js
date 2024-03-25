@@ -68,7 +68,8 @@ app.post("/words", async (req, res) => {
         if(!keyword && !shortExp){
             return res.status(403).json({msg : "keyword & shortExp required"})
         }
-        const data = req.body 
+        const slug = keyword.replaceAll(" ", "-").toLowerCase()
+        const data = {...req.body, slug}
         const _id = (await socialDB.collection("words").insertOne(data)).insertedId
         const result = {_id, ...data}
         return res.json(result)
